@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>قاعدة بيانات الطلاب</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #fefbf4;
+      color: #333;
+      direction: rtl;
+      margin: 20px;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #1a517e;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 60px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .save {
+      background-color: #1a8a5b;
+    }
+
+    .clear {
+      background-color: #c0392b;
+    }
+
+    .share {
+      background-color: #2980b9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #e2f0f7;
+    }
+
+    .image-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .image-box img {
+      width: 120px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .school-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .school-header input {
+      width: 70%;
+    }
+
+    .student-img {
+      max-width: 60px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="school-header">
+      <h2 id="schoolNameDisplay">اسم المدرسة</h2>
+      <input id="schoolNameInput" type="text" placeholder="أدخل اسم المدرسة هنا" oninput="updateSchoolName()" />
+    </div>
+
+    <div class="image-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/3011/3011270.png" alt="مدرسة">
+    </div>
+
+    <label>رقم الطالب:</label>
+    <input id="studentId" type="text" />
+
+    <label>الاسم:</label>
+    <input id="name" type="text" />
+
+    <label>رابط صورة الطالب (اختياري):</label>
+    <input id="studentImage" type="text" placeholder="https://example.com/image.jpg" />
+
+    <label>الجنسية:</label>
+    <select id="nationality">
+      <option>عماني</option>
+      <option>سعودي</option>
+      <option>إماراتي</option>
+      <option>كويتي</option>
+      <option>قطري</option>
+      <option>بحريني</option>
+      <option>أخرى</option>
+    </select>
+
+    <label>العمر:</label>
+    <input id="age" type="number" min="4" max="20"/>
+
+    <label>الصف:</label>
+    <select id="grade">
+<option>الصف 1</option>
+<option>الصف 2</option>
+<option>الصف 3</option>
+<option>الصف 4</option>
+<option>الصف 5</option>
+<option>الصف 6</option>
+<option>الصف 7</option>
+<option>الصف 8</option>
+<option>الصف 9</option>
+<option>الصف 10</option>
+<option>الصف 11</option>
+<option>الصف 12</option>
+    </select>
+
+    <label>الشعبة:</label>
+    <select id="section">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+    </select>
+
+    <label>الملاحظات:</label>
+    <textarea id="notes"></textarea>
+
+    <div class="buttons">
+      <button class="save" onclick="saveStudent()">حفظ</button>
+      <button class="clear" onclick="clearForm()">مسح</button>
+      <button class="share" onclick="shareData()">مشاركة البيانات</button>
+    </div>
+
+    <h3>قاعدة بيانات الطلاب</h3>
+    <table id="studentTable">
+      <thead>
+        <tr>
+          <th>الصورة</th>
+          <th>رقم الطالب</th>
+          <th>الاسم</th>
+          <th>الجنسية</th>
+          <th>العمر</th>
+          <th>الصف</th>
+          <th>الشعبة</th>
+          <th>الملاحظات</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="footer">
+      تصميم وبرمجة: <strong>بوبيان</strong>
+    </div>
+  </div>
+
+  <script>
+    function updateSchoolName() {
+      const schoolInput = document.getElementById("schoolNameInput").value.trim();
+      document.getElementById("schoolNameDisplay").textContent = schoolInput || "اسم المدرسة";
+    }
+
+    function saveStudent() {
+      const id = document.getElementById("studentId").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const nationality = document.getElementById("nationality").value;
+      const age = document.getElementById("age").value;
+      const grade = document.getElementById("grade").value;
+      const section = document.getElementById("section").value;
+      const notes = document.getElementById("notes").value.trim();
+      const image = document.getElementById("studentImage").value.trim();
+
+      if (!id || !name || !age) {
+        alert("يرجى إدخال جميع البيانات المهمة.");
+        return;
+      }
+
+      const student = { id, name, nationality, age, grade, section, notes, image };
+
+      let students = JSON.parse(localStorage.getItem("students") || "[]");
+      students.push(student);
+      localStorage.setItem("students", JSON.stringify(students));
+      displayStudents();
+      clearForm();
+    }
+
+    function clearForm() {
+      document.getElementById("studentId").value = "";
+      document.getElementById("name").value = "";
+      document.getElementById("studentImage").value = "";
+      document.getElementById("nationality").selectedIndex = 0;
+      document.getElementById("age").value = "";
+      document.getElementById("grade").selectedIndex = 0;
+      document.getElementById("section").selectedIndex = 0;
+      document.getElementById("notes").value = "";
+    }
+
+    function displayStudents() {
+      const students = JSON.parse(localStorage.getItem("students") || "[]");
+      const table = document.getElementById("studentTable").getElementsByTagName("tbody")[0];
+      table.innerHTML = "";
+      students.forEach(student => {
+        const row = table.insertRow();
+        row.innerHTML = `
+          <td>${student.image ? '<img src="' + student.image + '" class="student-img"/>' : '-'}</td>
+          <td>${student.id}</td>
+          <td>${student.name}</td>
+          <td>${student.nationality}</td>
+          <td>${student.age}</td>
+          <td>${student.grade}</td>
+          <td>${student.section}</td>
+          <td>${student.notes}</td>
+        `;
+      });
+    }
+
+    function shareData() {
+      const students = JSON.parse(localStorage.getItem("students") || "[]");
+      let text = "قائمة الطلاب:\n\n";
+      students.forEach((s, index) => {
+        text += `${index + 1}. ${s.name} (${s.id}) - ${s.grade}/${s.section}\n`;
+      });
+      navigator.clipboard.writeText(text).then(() => {
+        alert("تم نسخ البيانات إلى الحافظة، يمكنك مشاركتها الآن.");
+      });
+    }
+
+    window.onload = function () {
+      displayStudents();
+      updateSchoolName();
+    };
+  </script>
+</body>
+</html>
